@@ -1,0 +1,85 @@
+<!--
+ * Copyright (c) 2011-2015, BULL SAS, NovaForge Version 3 and above.
+ *
+ * This file is free software: you may redistribute and/or 
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, version 3 of the License.
+ *
+ * This file is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses.
+ *
+ * Additional permission under GNU AGPL version 3 (AGPL-3.0) section 7
+ *
+ * If you modify this Program, or any covered work,
+ * by linking or combining it with libraries listed
+ * in COPYRIGHT file at the top-level directof of this
+ * distribution (or a modified version of that libraries),
+ * containing parts covered by the terms of licenses cited
+ * in the COPYRIGHT file, the licensors of this Program
+ * grant you additional permission to convey the resulting work.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.novaforge.products.data</groupId>
+		<artifactId>parent-3.8.1</artifactId>
+		<version>2.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>novaforge-connectors-3.8.1</artifactId>
+	<packaging>pom</packaging>
+	<version>2.0</version>
+	<name>NovaForge(tm) :: Products :: 3.8.1 :: Datas :: Novaforge Connectors</name>
+	<description>NovaForge(tm) :: Products :: 3.8.1 :: Datas :: Novaforge Connectors</description>
+
+	<properties>
+		<karaf.version>3.0.1</karaf.version>
+	</properties>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.karaf.tooling</groupId>
+					<artifactId>karaf-maven-plugin</artifactId>
+					<version>${karaf.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<modules>
+		<module>novaforge-connector-alfresco-distrib</module>
+		<module>novaforge-connector-delivery-distrib</module>
+		<module>novaforge-connector-distribution-distrib</module>
+		<module>novaforge-connector-dokuwiki-distrib</module>
+		<module>novaforge-connector-forge-distrib</module>
+		<module>novaforge-connector-jenkins-distrib</module>
+		<module>novaforge-connector-gitlab-distrib</module>
+		<module>novaforge-connector-jira-distrib</module>
+		<module>novaforge-connector-limesurvey-distrib</module>
+		<module>novaforge-connector-log-distrib</module>
+		<module>novaforge-connector-management-module-distrib</module>
+		<module>novaforge-connector-mantis-ard-distrib</module>
+		<module>novaforge-connector-mantis-distrib</module>
+		<module>novaforge-connector-mantis-arc-distrib</module>
+		<module>novaforge-connector-mantis-std-distrib</module>
+		<module>novaforge-connector-nexus-distrib</module>
+		<module>novaforge-connector-phpbb-distrib</module>
+		<module>novaforge-connector-sympa-distrib</module>
+		<module>novaforge-connector-requirements-distrib</module>
+		<module>novaforge-connector-reference-distrib</module>
+		<module>novaforge-connector-sonar-distrib</module>
+		<module>novaforge-connector-spip-distrib</module>
+		<module>novaforge-connector-svn-distrib</module>
+		<module>novaforge-connector-svn-agent-distrib</module>
+		<module>novaforge-connector-technical-distrib</module>
+		<module>novaforge-connector-testlink-distrib</module>
+		<module>novaforge-connector-itests-distrib</module>
+		<module>novaforge-connector-itests-safran-distrib</module>
+	</modules>
+
+</project>

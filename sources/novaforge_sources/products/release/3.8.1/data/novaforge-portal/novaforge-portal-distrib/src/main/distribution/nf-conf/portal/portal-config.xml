@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright (c) 2011-2015, BULL SAS, NovaForge Version 3 and above.
+ *
+ * This file is free software: you may redistribute and/or 
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, version 3 of the License.
+ *
+ * This file is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses.
+ *
+ * Additional permission under GNU AGPL version 3 (AGPL-3.0) section 7
+ *
+ * If you modify this Program, or any covered work,
+ * by linking or combining it with libraries listed
+ * in COPYRIGHT file at the top-level directof of this
+ * distribution (or a modified version of that libraries),
+ * containing parts covered by the terms of licenses cited
+ * in the COPYRIGHT file, the licensors of this Program
+ * grant you additional permission to convey the resulting work.
+-->
+<portal-config>
+	<settings>
+		<!-- Define the theme to use : novaforge or novaforge_blue  -->
+		<setting id="theme">novaforge_blue</setting>
+	</settings>
+	<uri-templates>
+		<uri-template id="distribution">/distribution/Distribution.html</uri-template>
+		<uri-template id="historization">/historization/Historization.html</uri-template>
+		<uri-template id="technicallogs">/technical-logs</uri-template>
+		<uri-template id="referenceadmin">/forge-reference/ForgeReference.html?action=admin</uri-template>
+		<uri-template id="referenceuserview">/forge-reference/ForgeReference.html?action=user_view</uri-template>
+		<uri-template id="referenceadminview">/forge-reference/ForgeReference.html?action=admin_view</uri-template>
+		<uri-template id="userguide">/novaforge-user-guide/?locale=@locale</uri-template>
+	</uri-templates>
+	<navigation>
+		<forge>
+			<default-app roles="Member">
+				<internal-app id="article">
+					<name>${navigation.welcomepage}</name>
+					<description>${navigation.welcomepage.description}</description>
+					<img>ThemeResource=ICON_STAR_YELLOW</img>
+				</internal-app>
+			</default-app>
+			<space roles="Super Administrator,Administrator,Member" id="myspace">
+				<name>${navigation.myspace}</name>
+				<description>${navigation.myspace.description}</description>
+				<apps>
+					<internal-app id="createproject">
+						<name>${navigation.myspace.createproject}</name>
+						<description>${navigation.myspace.createproject.description}</description>
+						<img>ThemeResource=ICON_NAVIGATION_CREATE_PROJECT</img>
+					</internal-app>
+					<internal-app id="dashboard">
+						<name>${navigation.myspace.dashboard}</name>
+						<description>${navigation.myspace.dashboard.description}</description>
+						<img>ThemeResource=ICON_CHART_BAR_BG</img>
+					</internal-app>
+				</apps>
+			</space>
+			<space roles="Super Administrator" id="forgeadministration" img="projectmanagement.png">
+				<name>${navigation.administration}</name>
+				<description>${navigation.administration.description}</description>
+				<apps>
+					<internal-app id="adminprojects">
+						<name>${navigation.administration.adminprojects}</name>
+						<description>${navigation.administration.adminprojects.description}</description>
+						<img>ThemeResource=ICON_ADMIN_PROJECT</img>
+					</internal-app>
+					<internal-app id="pluginsmanagement">
+						<name>${navigation.administration.adminplugin}</name>
+						<description>${navigation.administration.adminplugin.description}</description>
+						<img>ThemeResource=ICON_ADMIN_PLUGINS</img>
+					</internal-app>
+					<external-app id="distribution">
+						<name>${navigation.administration.distribution}</name>
+						<description>${navigation.administration.distribution.description}</description>
+						<img>ThemeResource=ICON_DISTRIBUTED</img>
+					</external-app>
+					<external-app id="historization">
+						<name>${navigation.administration.functionallog}</name>
+						<description>${navigation.administration.functionallog.description}</description>
+						<img>ThemeResource=ICON_FILE_LOG</img>
+					</external-app>
+					<external-app id="technicallogs">
+						<name>${navigation.administration.technicallog}</name>
+						<description>${navigation.administration.technicallog.description}</description>
+						<img>ThemeResource=ICON_FILE_LOG</img>
+					</external-app>
+					<internal-app id="usermanagementadmin">
+						<name>${navigation.administration.adminuser}</name>
+						<description>${navigation.administration.adminuser.description}</description>
+						<img>ThemeResource=ICON_ADMIN_USERS</img>
+					</internal-app>
+					<external-app id="referenceadmin" permissions="#project:reference:*">
+						<name>${navigation.administration.adminreference}</name>
+						<description>${navigation.administration.adminreference.description}</description>
+						<img>ThemeResource=ICON_SETTINGS</img>
+					</external-app>
+				</apps>
+			</space>
+			<space roles="Super Administrator" id="projectforgeadministration" img="projectmanagement.png">
+				<name>${navigation.administrationproject}</name>
+				<description>${navigation.administrationproject.description}</description>
+				<apps>
+					<internal-app id="updateproject">
+						<name>${navigation.administration.updateproject}</name>
+						<description>${navigation.administration.updateproject.description}</description>
+						<img>ThemeResource=ICON_PROJECT</img>
+					</internal-app>
+					<internal-app id="applications">
+						<name>${navigation.administrationproject.applications}</name>
+						<description>${navigation.administrationproject.applications.description}</description>
+						<img>ThemeResource=ICON_PLUGIN_COLORED</img>
+					</internal-app>
+					<internal-app id="memberships">
+						<name>${navigation.administrationproject.memberships}</name>
+						<description>${navigation.administrationproject.memberships.description}</description>
+						<img>ThemeResource=ICON_USERS</img>
+					</internal-app>	
+				</apps>
+			</space>
+			<space roles="Super Administrator,Administrator,Member" id="sharetool">
+				<name>${navigation.sharedtools}</name>
+				<description>${navigation.sharedtools.description}</description>
+				<apps>
+					<external-app id="referenceuserview">
+						<name>${navigation.sharedtools.user}</name>
+						<description>${navigation.sharedtools.user.description}</description>
+						<img>ThemeResource=ICON_BOX_LINKED</img>
+					</external-app>
+					<external-app id="referenceadminview" roles="Super Administrator">
+						<name>${navigation.sharedtools.admin}</name>
+						<description>${navigation.sharedtools.admin.description}</description>
+						<img>ThemeResource=ICON_CIRCLE_LINKED</img>
+					</external-app>
+				</apps>
+			</space>
+		</forge>
+		<project>
+			<default-app permissions="project:@projectId:read">
+				<internal-app permissions="project:@projectId:dashboard:read" id="dashboard">
+					<name>${navigation.projectspace.dashboard}</name>
+					<description>${navigation.projectspace.dashboard.description}</description>
+					<img>ThemeResource=ICON_CHART_BAR_BG</img>
+				</internal-app>
+			</default-app>
+			<space roles="Administrator" permissions="project:@projectId:*" id="projectadministration">
+				<name>${navigation.administrationproject}</name>
+				<description>${navigation.administrationproject.description}</description>
+				<apps>
+					<internal-app id="updateproject">
+						<name>${navigation.administrationproject.updateproject}</name>
+						<description>${navigation.administrationproject.updateproject.description}</description>
+						<img>ThemeResource=ICON_PROJECT</img>
+					</internal-app>
+					<internal-app id="applications">
+						<name>${navigation.administrationproject.applications}</name>
+						<description>${navigation.administrationproject.applications.description}</description>
+						<img>ThemeResource=ICON_PLUGIN_COLORED</img>
+					</internal-app>
+					<internal-app id="memberships">
+						<name>${navigation.administrationproject.memberships}</name>
+						<description>${navigation.administrationproject.memberships.description}</description>
+						<img>ThemeResource=ICON_USERS</img>
+					</internal-app>
+				</apps>
+			</space>
+			<space permissions="project:@projectId:read" id="myprojectspace">
+				<name>${navigation.projectspace}</name>
+				<description>${navigation.projectspace.description}</description>
+				<apps>
+				        <internal-app id="mailing">
+						<name>${navigation.administrationproject.mailing}</name>
+						<description>${navigation.administrationproject.mailing.description}</description>
+						<img>ThemeResource=ICON_MAIL</img>
+					</internal-app>
+				</apps>
+			</space>
+		</project>
+		<account>
+         <!-- The followings should be used when public forge is managed. -->
+         <!-- <space id="connexion" name="Connexion" display="unauthenticated"> <internal-app id="login">S'authentifier</internal-app> <internal-app id="login">S'inscrire</internal-app> </space> -->
+
+			<space id='myaccount'>
+				<name>@userName</name>
+				<description>${navigation.myaccount.description}</description>
+				<apps>
+					<internal-app id="usermanagementprivate">
+						<name>${navigation.myspace.myaccount}</name>
+						<description>${navigation.myspace.myaccount.description}</description>
+						<img>ThemeResource=ICON_USER</img>
+					</internal-app>
+					<external-app id="userguide">
+						<name>${navigation.myspace.onlinehelp}</name>
+						<description>${navigation.myspace.onlinehelp.description}</description>
+						<img>ThemeResource=ICON_HELP</img>
+					</external-app>
+					<internal-app id="logout">
+						<name>${navigation.myaccount.logout}</name>
+						<description>${navigation.myaccount.logout.description}</description>
+						<img>ThemeResource=ICON_LOGOUT</img>
+					</internal-app>
+				</apps>
+			</space>
+		</account>
+		<link>
+			<internal-app id="publicproject">
+				<name>${navigation.publicproject}</name>
+				<description>${navigation.publicproject.description}</description>
+				<img>ThemeResource=ICON_SEARCH</img>
+			</internal-app>
+		</link>
+	</navigation>
+</portal-config>

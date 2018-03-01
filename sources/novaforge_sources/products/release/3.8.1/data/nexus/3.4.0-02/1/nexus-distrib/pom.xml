@@ -1,0 +1,291 @@
+<!-- * NovaForge(TM) is a web-based forge offering a Collaborative Development 
+	and * Project Management Environment. * * Copyright (C) 2007-2014 BULL SAS 
+	* * This program is free software: you can redistribute it and/or modify 
+	* it under the terms of the GNU Affero General Public License as * published 
+	by the Free Software Foundation, either version 3 of the * License, or (at 
+	your option) any later version. * * This program is distributed in the hope 
+	that it will be useful, * but WITHOUT ANY WARRANTY; without even the implied 
+	warranty of * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+	* GNU Affero General Public License for more details. * * You should have 
+	received a copy of the GNU Affero General Public License * along with this 
+	program. If not, see http://www.gnu.org/licenses/. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.novaforge.products.data</groupId>
+		<artifactId>nexus</artifactId>
+		<version>3.4.0-02_1</version>
+	</parent>
+	<artifactId>nexus-distrib</artifactId>
+	<packaging>pom</packaging>
+	<name>NovaForge(tm) :: Products :: 3.8.1 :: Datas :: Nexus :: 3.4.0-02_1 :: Nexus OSS WebApp</name>
+	<description>Patch of the Nexus OSS WebApp Bundle with NovaForge(tm) modifications.</description>
+
+
+	<!-- maven-install-plugin parameters -->
+	<properties>
+		<groupId>${project.groupId}</groupId>
+		<artifactId>${project.artifactId}</artifactId>
+		<packaging>tar.gz</packaging>
+
+		<repositoryId>novaforge-snapshot</repositoryId>
+		<!-- the target repository url defined in the root pom.xml file -->
+		<url>${_snapshotUrl}</url>
+		<nexus.version>3.4.0-02</nexus.version>
+		<file>src/main/resources/nexus-${nexus.version}-unix.tar.gz</file>
+		<patches.dir>${basedir}/src/main/patches</patches.dir>
+		<sisu.dir>${basedir}/src/main/sisu</sisu.dir>
+		<patches.repo.dir>${patches.dir}/maven-repository</patches.repo.dir>
+		<nexus.distrib>${project.build.directory}/distrib</nexus.distrib>
+		<nexus.distrib.filename>nexus-distrib-${version}.tar.gz</nexus.distrib.filename>
+		<nexus.oss.features.file>nexus-oss-feature-${nexus.version}-features.xml</nexus.oss.features.file>
+		<nexus.repository>${nexus.distrib}/nexus-${nexus.version}/system</nexus.repository>
+		<nexus.oss.features.dir>${nexus.repository}/com/sonatype/nexus/assemblies/nexus-oss-feature/${nexus.version}</nexus.oss.features.dir>
+		<nexus.security.module>nexus-security</nexus.security.module>
+		<nexus.security.temp.dir>${project.build.directory}/temp/${nexus.security.module}</nexus.security.temp.dir>
+		<nexus.security.jar.file>${nexus.repository}/org/sonatype/nexus/${nexus.security.module}/${nexus.version}/${nexus.security.module}-${nexus.version}.jar</nexus.security.jar.file>
+		<nexus.security.manifest.file>${patches.dir}/nexus-secuity-MANIFEST.MF</nexus.security.manifest.file>
+		<nexus.rapture.module>nexus-rapture</nexus.rapture.module>
+		<nexus.rapture.temp.dir>${project.build.directory}/temp/${nexus.rapture.module}</nexus.rapture.temp.dir>
+		<nexus.rapture.jar.file>${nexus.repository}/org/sonatype/nexus/${nexus.rapture.module}/${nexus.version}/${nexus.rapture.module}-${nexus.version}.jar</nexus.rapture.jar.file>
+		<nexus.rapture.users.file>${basedir}/src/main/resources/static/rapture/NX/controller/User.js</nexus.rapture.users.file>
+		<nexus.rapture.prod.file>${basedir}/src/main/resources/static/rapture/nexus-rapture-prod.js</nexus.rapture.prod.file>
+		<nexus.rapture.debug.file>${basedir}/src/main/resources/static/rapture/nexus-rapture-debug.js</nexus.rapture.debug.file>
+		<extlib.shiro-cas.jar.file>${patches.dir}/maven-repository/org/apache/shiro/shiro-cas/1.3.2/shiro-cas-1.3.2.jar</extlib.shiro-cas.jar.file>
+		<extlib.jasig-cas-client.jar.file>${patches.dir}/maven-repository/org/jasig/cas/client/cas-client-core/3.2.2/cas-client-core-3.2.2.jar</extlib.jasig-cas-client.jar.file>
+		<extlib.commons-logging.jar.file>${patches.dir}/maven-repository/commons-logging/commons-logging/1.1/commons-logging-1.1.jar</extlib.commons-logging.jar.file>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.sonatype.nexus</groupId>
+			<artifactId>nexus-security</artifactId>
+			<version>3.4.0-02</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.apache.shiro</groupId>
+		  <artifactId>shiro-cas</artifactId>
+		  <version>1.3.2</version>
+		</dependency>
+			<dependency>
+		  <groupId>javax.servlet</groupId>
+		  <artifactId>javax.servlet-api</artifactId>
+		  <version>3.1.0</version>
+		</dependency>
+		
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Compile the java patch -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>java-patch-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<inherited>false</inherited>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>unpack-nexus-distrib</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<!-- <copy todir="${nexus.distrib}/"> <fileset dir="${basedir}/src/main/resources/"> 
+									<include name="nexus-${nexus.version}-unix.tar.gz"/> </fileset> </copy> -->
+								<untar
+									src="${basedir}/src/main/resources/nexus-${nexus.version}-unix.tar.gz"
+									dest="${nexus.distrib}/" compression="gzip" />
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>patch-nexus-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<!-- remove the nexus-oss-feature-3.2.xml file 
+								<delete>
+									<fileset dir="${nexus.oss.features.dir}/" includes="*.xml" />
+								</delete> -->
+								<!-- copy the nexus-oss-feature-3.4.0-02-features.xml file enhanced 
+									with cas plugin feature into the 
+								<copy file="${basedir}/src/main/patches/${nexus.oss.features.file}"
+									todir="${nexus.oss.features.dir}/" overwrite="true" /> -->
+
+								<!-- copy NOVAFORGE-README.txtr into the nexus distrib -->
+								<copy file="${basedir}/src/main/patches/NOVAFORGE-README.txt"
+									todir="${nexus.distrib}/" overwrite="true" />
+							</target>
+						</configuration>
+					</execution>
+					
+					<!-- patch nexus-security -->
+					<execution>
+						<id>unpack-nexus-security</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<unzip src="${extlib.shiro-cas.jar.file}" dest="${nexus.security.temp.dir}/" />
+								<unzip src="${extlib.jasig-cas-client.jar.file}" dest="${nexus.security.temp.dir}/" />
+								<unzip src="${extlib.commons-logging.jar.file}" dest="${nexus.security.temp.dir}/" />
+								<unzip src="${nexus.security.jar.file}" dest="${nexus.security.temp.dir}/" />
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>patch-nexus-security</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy file="${sisu.dir}/javax.inject.Named" todir="${nexus.security.temp.dir}/META-INF/sisu/"
+									overwrite="true">
+								</copy>
+								<copy file="${nexus.security.manifest.file}" tofile="${nexus.security.temp.dir}/META-INF/MANIFEST.MF"
+									overwrite="true">
+								</copy>																
+								<copy
+									todir="${nexus.security.temp.dir}/org/sonatype/nexus/security/internal/"
+									overwrite="true">
+									<fileset
+										dir="${project.build.directory}/classes/org/sonatype/nexus/security/internal/">
+										<include name="**/*.class" />
+									</fileset>
+								</copy>
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>replace-nexus-security-jar</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<jar destfile="${nexus.security.jar.file}" basedir="${nexus.security.temp.dir}/"
+									excludes="**/*README.txt" manifest="${nexus.security.temp.dir}/META-INF/MANIFEST.MF">
+								</jar>
+							</target>
+						</configuration>
+					</execution>
+					
+										
+					<!-- patch nexus-rapture -->
+					<execution>
+						<id>unpack-nexus-rapture</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<unzip src="${nexus.rapture.jar.file}" dest="${nexus.rapture.temp.dir}/" />
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>patch-nexus-rapture</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy file="${nexus.rapture.users.file}" tofile="${nexus.rapture.temp.dir}/static/rapture/NX/controller/User.js"
+									overwrite="true">
+								</copy>
+								<copy file="${nexus.rapture.prod.file}" tofile="${nexus.rapture.temp.dir}/static/rapture/nexus-rapture-prod.js"
+									overwrite="true">
+								</copy>
+								<copy file="${nexus.rapture.debug.file}" tofile="${nexus.rapture.temp.dir}/static/rapture/nexus-rapture-debug.js"
+									overwrite="true">
+								</copy>
+								
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>replace-nexus-rapture-jar</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<jar destfile="${nexus.rapture.jar.file}" basedir="${nexus.rapture.temp.dir}/"
+									excludes="**/*README.txt" manifest="${nexus.rapture.temp.dir}/META-INF/MANIFEST.MF">
+								</jar>
+							</target>
+						</configuration>
+					</execution>
+
+					<!-- add cas dependencies -->
+					<execution>
+						<id>patch-nexus-repository</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy todir="${nexus.repository}">
+									<fileset dir="${patches.repo.dir}"/>
+								</copy>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>pack-source</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>src/main/assembly/assembly.xml</descriptor>
+							</descriptors>
+							<!-- Support long filenames -->
+							<tarLongFileMode>gnu</tarLongFileMode>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

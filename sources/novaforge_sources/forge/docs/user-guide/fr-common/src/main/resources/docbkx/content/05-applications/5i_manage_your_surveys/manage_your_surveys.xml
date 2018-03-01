@@ -1,0 +1,91 @@
+<!--
+ * Copyright (c) 2011-2015, BULL SAS, NovaForge Version 3 and above.
+ *
+ * This file is free software: you may redistribute and/or 
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, version 3 of the License.
+ *
+ * This file is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see http://www.gnu.org/licenses.
+ *
+ * Additional permission under GNU AGPL version 3 (AGPL-3.0) section 7
+ *
+ * If you modify this Program, or any covered work,
+ * by linking or combining it with libraries listed
+ * in COPYRIGHT file at the top-level directof of this
+ * distribution (or a modified version of that libraries),
+ * containing parts covered by the terms of licenses cited
+ * in the COPYRIGHT file, the licensors of this Program
+ * grant you additional permission to convey the resulting work.
+-->
+<section
+ xmlns="http://docbook.org/ns/docbook"
+ xmlns:db="http://docbook.org/ns/docbook"
+ xmlns:ns3="http://www.w3.org/1999/xhtml"
+ xmlns:ns4="http://www.w3.org/1998/Math/MathML"
+ xmlns:ns5="http://www.w3.org/2000/svg"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="fr">
+ 
+ 
+  <title>Gérer vos questionnaires</title>
+  <para>L'outil de gestion des questionnaires (sondages) intégré dans la forge est l'outil open source Limesurvey.</para>
+  <para>
+   Il permet de :
+      <itemizedlist>
+        <listitem>créer des questionnaires</listitem>
+        <listitem>les soumettre à une population donnée</listitem>
+        <listitem>restituer les statistiques associées aux réponses formulées</listitem>
+      </itemizedlist>
+  </para>
+  <section>
+    <title>Intégration dans NovaForge</title>
+    <para>
+  		<emphasis role="bold">Important : </emphasis>
+    </para>
+    <para>
+    L'implémentation actuelle de Limesurvey ne permet pas de mettre en oeuvre la gestion automatique des droits en fonction des rôles projet de la Forge.
+    Cette restriction est principalement liée au fait que Limesurvey ne fournit pas la possibilité de gérer les permissions d'un questionnaire pour un groupe d'utilisateur : 
+    seule la gestion des permissions par utilisateur est techniquement implémentée.
+    </para>
+    <para>
+    De ce fait, tout questionnaire créé par un utilisateur de rôle administrateur ne pourra pas être automatiquement visible des autres utilisateurs du même projet de Forge.
+    </para>
+    <para>
+    Pour contourner cette limite, il est nécessaire de mettre en oeuvre d'IHM de gestion des permissions des sondages proposée par Limesurvey.
+   	<figure>
+  		<title>Limesurvey : Accès à l'IHM de gestion des permissions d'un questionnaire</title> 
+  		<mediaobject>
+  		<imageobject>
+  			<imagedata align="center" fileref="05-05i-01-LimesurveyPermissionsUI.png" width="450px" /> 
+  		</imageobject>
+  		</mediaobject>
+  	</figure>	
+   	<figure>
+  		<title>Limesurvey : Modification des permissions pour un utilisateur ou un groupe d'utilisateurs</title> 
+  		<mediaobject>
+  		<imageobject>
+  			<imagedata align="center" fileref="05-05i-02-LimesurveyPermissionsChange.png" width="450px" /> 
+  		</imageobject>
+  		</mediaobject>
+  	</figure>	
+    L'IHM ci-dessus permet de modifier les permissions d'un questionnaire pour un utilisateur ou pour un ensemble d'utilisateurs ("Groupe d'utilisateurs").
+    </para>
+    <para>
+    Par ailleurs, il est possible d'affiner ce niveau de permissions après avoir associé un utilisateur ou un groupe d'utilisateurs à un questionnaire.
+   	<figure>
+  		<title>Limesurvey : Liste des permissions</title> 
+  		<mediaobject>
+  		<imageobject>
+  			<imagedata align="center" fileref="05-05i-03-LimesurveyPermissionsList.png" width="450px" /> 
+  		</imageobject>
+  		</mediaobject>
+  	</figure>	
+    </para>
+  </section> 
+</section>
+  
