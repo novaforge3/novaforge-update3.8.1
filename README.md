@@ -165,11 +165,11 @@ systemctl stop mysql httpd sendmail sympa nexus jenkins sonar gitlab cas novafor
 ```
 Run the following command :
 ```sh
-/livraison/package/install.sh -v -t aio -i aio -p bull -c /livraison/novaforge.cfg -l /livraison/package/repository -o > /livraison/install_3.8.1.log 2>&1 &
+/livraison/package/install.sh -v -t aio -i aio -p bull -c /livraison/novaforge.cfg -l /livraison/package/repository -o > /livraison/update_3.8.1.log 2>&1 &
 ```
 You can monitor the component installation by running the following command :
 ```sh
-tail -f install_3.8.1.log | grep Processing
+tail -f update_3.8.1.log | grep Processing
 ```
 The log file should end with lines similar to :
 ```sh
@@ -177,9 +177,9 @@ The log file should end with lines similar to :
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 17:25.195s
-[INFO] Finished at: Fri Oct 06 11:00:41 CEST 2017
-[INFO] Final Memory: 39M/118M
+[INFO] Total time: 56.712s
+[INFO] Finished at: Wed Mar 07 15:33:21 CET 2018
+[INFO] Final Memory: 16M/118M
 [INFO] ------------------------------------------------------------------------
 [WARNING] The requested profile "bull" could not be activated because it does not exist.
 ---------------------------------------------------------------------------
