@@ -154,6 +154,7 @@ Retrieve and untar the recently built package (`package-3.8.1-bull_update.tar.gz
 ```sh
 cd /livraison
 tar -zxvf package-3.8.1-bull_update.tar.gz
+rm package
 ln -s package-3.8.1-bull_update package
 ```
 
