@@ -35,7 +35,7 @@ All following commands will have to be run with the `config` account.
 To retrieve all the components, perform the following "git clone" commands :
 ```sh
 cd /datas
-git clone --branch 3.8.1 https://github.com/novaforge3/novaforge.git
+git clone https://github.com/novaforge3/novaforge-update3.8.1.git
 ```
 If you're facing errors like "Failed connect to github.com:443; Connection timed out", it usually means you're accessing Internet through a web proxy.
 
@@ -46,61 +46,26 @@ export https_proxy=https://<proxy-IP>:<proxy-port>/
 
 Once all downloads are completed, you should have a folder tree like this one :
 ```sh
-/datas/novaforge
+/datas/novaforge-update3.8.1
 ```
 
 ### Prepare the environment
 First, move the NovaForge main folders to their final location :
 ```sh
-cd /datas
-mv novaforge/* .
+cd sources
+mv novaforge_sources novaforge_sources_3.8.0
+cp -r /datas/novaforge-update3.8.1/sources/novaforge_sources 
 ```
 
-At the end, you should have a high-level content similar to this one :
+### Initialize other needed files and folders
 ```sh
-[config@novapack /]$ find /datas -maxdepth 3 |sort
-/datas
-/datas/README.md
-/datas/sources
-/datas/sources/novaforge_sources
-/datas/sources/novaforge_sources/beaver
-/datas/sources/novaforge_sources/forge
-/datas/sources/novaforge_sources/parent
-/datas/sources/novaforge_sources/products
-/datas/sources/novaforge_sources/studio
-/datas/sources/novaforge_thirdpartygpl
-/datas/sources/novaforge_thirdpartygpl/COPYING
-/datas/sources/novaforge_thirdpartygpl/plugins
-/datas/sources/novaforge_thirdpartygpl/pom.xml
-/datas/sources/novaforge_thirdpartygpl/.project
-/datas/sources/novaforge_vaadinchartswidgets
-/datas/sources/novaforge_vaadinchartswidgets/bugtracker
-/datas/sources/novaforge_vaadinchartswidgets/pom.xml
-/datas/sources/novaforge_vaadinchartswidgets/.project
-/datas/sources/novaforge_vaadinchartswidgets/quality
-/datas/tools
-/datas/tools/genPackage.sh
-/datas/tools/initRepo.tgz
-/datas/tools/joinFiles.sh
-/datas/tools/profiles
-/datas/tools/profiles/Bull
-```
-
-### Initialize other needed folders
-```sh
-cd /datas
-mkdir repoMaven tmp
-```
-
-### Deploy and configure Maven
-```sh
-mkdir /datas/tools/maven
-cd !$ 
-tar -zxvf /datas/sources/novaforge_sources/products/release/shared/bin/apache-maven-3.0.5-bin.tar.gz
+mkdir /datas/sources/novaforge_sources/forge/docs/requirements-guide/src/main/resources/docbkx/images
+cp /datas/sources/novaforge_sources_3.8.0/products/release/3.8.0/data/nexus/3.4.0-02/0/nexus-distrib/src/main/resources/nexus-3.4.0-02-unix.tar.gz /datas/sources/novaforge_sources/products/release/3.8.1/data/nexus/3.4.0-02/1/nexus-distrib/src/main/resources
+cp -r /datas/sources/novaforge_sources_3.8.0/products/release/shared /datas/sources/novaforge_sources/products/release/
 ```
 
 In the `/datas/tools/maven/apache-maven-3.0.5/conf/settings.xml` file, 
-- set the local Maven repository :
+- Check the local Maven repository is :
 ```sh
 <localRepository>/datas/repoMaven</localRepository>
 ```
@@ -114,17 +79,8 @@ In the `/datas/tools/maven/apache-maven-3.0.5/conf/settings.xml` file,
       <nonProxyHosts></nonProxyHosts>
     </proxy>
 ```
-
-### Deploy JDK
-```sh
-mkdir /datas/tools/jdk
-cd !$
-tar -zxvf /datas/sources/novaforge_sources/products/release/3.8.0/data/jdk/7u80/0/jdk-distrib/src/main/resources/jdk-7u80-linux-x64.tar.gz
-tar -zxvf /datas/sources/novaforge_sources/products/release/3.8.0/data/jdk/8u112/0/jdk-distrib/src/main/resources/jdk-8u112-linux-x64.tar.gz
-```
-
 ### Initialize environment
-Add the following lines at the end of the `config` user's `.bash_profile` file :
+use the following lines at the end of the `config` user's `.bash_profile` file :
 ```sh
 export JAVA_HOME=/datas/tools/jdk/jdk1.7.0_80
 #export JAVA_HOME=/datas/tools/jdk/jdk1.8.0_112
@@ -146,26 +102,12 @@ Java(TM) SE Runtime Environment (build 1.7.0_80-b15)
 Java HotSpot(TM) 64-Bit Server VM (build 24.80-b11, mixed mode)
 ```
 
-### Initialize Maven repository
-```sh
-cd /datas/repoMaven
-tar -zxvf /datas/tools/initRepo.tgz
-```
-
 ### Build Maven artifacts
 All NovaForge main components have to be built in a specific order :
 ```sh
 cd /datas/sources/novaforge_sources/parent
 mvn install
 cd /datas/sources/novaforge_sources/forge
-mvn install
-cd /datas/sources/novaforge_vaadinchartswidgets
-mvn install
-cd /datas/sources/novaforge_thirdpartygpl
-mvn install
-cd /datas/sources/novaforge_sources/beaver
-mvn install
-cd /datas/sources/novaforge_sources/studio
 mvn install
 ```
 The `products` component needs to be built with JDK 1.8.
@@ -201,133 +143,33 @@ Update the `/datas/tools/maven/apache-maven-3.0.5/conf/settings.xml` file to :
 
 Run the following command :
 ```sh
-/datas/tools/genPackage.sh -x -c /datas/tools/profiles/Bull/3.8.0.package_install.cfg
+/datas/tools/genPackage.sh -x -c /datas/tools/profiles/Bull/3.8.1.package_update.cfg
 ```
-The final package (`package-3.8.0-bull_install.tar.gz`) will be generated in a `/datas/tmp/bull_3.8.0.********` folder.
+The final package (`package-3.8.1-bull_update.tar.gz`) will be generated in a `/datas/tmp/bull_3.8.1.********` folder.
 
 ## Installation
 All the following actions have to be performed as `root` user.
 
-### Set your environment
-As previously written, NovaForge currently only runs on Linux environment and more especially on CentOS 7.0 release.
-
-The recommended setting needed for your running environment is the following one :
-- Virtual Machine (Virtualbox with GuestAdditions for example) with 8GB RAM and 40GB of disk storage
-- OS : CentOS 7.0 with only 'Infrastructure Server' package category installed
-
-Additionnal configuration actions are needed :
-- Disable the default Yum repository by adding the `enabled=0` line in the sections `[base]`, `[extras]` and `[updates]` in the `/etc/yum.repos.d/CentOS-Base.repo` file.
-- Create a Yum repository for the Media source : file `/etc/yum.repos.d/CentOS-Media.repo` with content :
-```sh
-[c7-media]
-name=CentOS-$releasever - Media
-baseurl=file:///media/cdrom/
-gpgcheck=1
-enabled=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
-```
-- Load CentOS DVD (`CentOS-7.0-1406-x86_64-DVD.iso` for example)
-- Enable CDROM device :
-```sh
-mkdir /media/cdrom
-mount -t iso9660 /dev/cdrom /media/cdrom
-```
-- Install `createrepo` and `patch` components :
-```sh
-cd /media/cdrom/Packages
-yum install --enablerepo=c7-media createrepo
-yum install --enablerepo=c7-media patch
-```
-- Disable SELinux : in `/etc/sysconfig/selinux` file, replace `SELINUX=enforcing` by `SELINUX=disabled`
-- Disable FireWalld : run the command `systemctl disable firewalld`
-- Define the server hostname (`novatest` for example) : `hostnamectl set-hostname novatest` 
-
-If you've set a Virtualbox VM with Network "NAT" mode, don't forget to configure ports redirection in order to have your VM accessible through SSH and HTTP/HTTPS protocols :
-```sh
-TCP 192.168.56.1 22   10.0.2.15 22
-TCP 192.168.56.1 80   10.0.2.15 80
-TCP 192.168.56.1 443  10.0.2.15 443
-```
-
-### Prepare NovaForge deployment
-Create `/livraison` and `/datas` folders :
-```sh
-mkdir /livraison /datas
-```
-Retrieve and untar the recently built package (`package-3.8.0-bull_install.tar.gz`) :
+Retrieve and untar the recently built package (`package-3.8.1-bull_update.tar.gz`) :
 ```sh
 cd /livraison
-tar -zxvf package-3.8.0-bull_install.tar.gz
-ln -s package-3.8.0-bull_install package
-```
-
-### Configure NovaForge deployment
-In order to fit the Forge configuration to your requirements, a specific configuration file (`novaforge.cfg`) must be provided.
-
-Its minimal content should match the following one (example for server hostname `novatest`) :
-```sh
-## Server configuration
-local:ip=_your_serveur_IP_(10.0.2.15_for_example)_
-local:host=novatest
-local:home=/datas/novaforge3
-local:user=novaforge
-local:group=novaforge
-
-## NovaForge configuration
-main:novaforge-connector-distribution.urlDirectory=https://novatest
-main:novaforge-connector-distribution.level=0
-## end configuration
-```
-
-If you intend to use a mailserver, you can set its integration with these parameters :
-```sh
-main:smtp.host=_your_mail_server_hostname_
-main:smtp.port=_your_mail_server_port_(25_for_example)_
-main:smtp.noReply=_Email_address_for_No_Reply_mails_
-main:novaforge-connector-forge.adminEmail=_Email_address_for_Forge_Administrator_
-```
-
-Be sure to have correctly defined your servers int the file `/etc/hosts`.
-
-Example :
-```sh
-[root@novatest livraison]# more /etc/hosts
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-
-10.0.2.15  novatest
-192.168.56.2 novamail
+tar -zxvf package-3.8.1-bull_update.tar.gz
+ln -s package-3.8.1-bull_update package
 ```
 
 ### Deploy NovaForge
+Stop current Novaforge version
+```sh
+systemctl stop mysql httpd sendmail sympa nexus jenkins sonar gitlab cas novaforge
+```
 Run the following command :
 ```sh
-/livraison/package/install.sh -v -t aio -i aio -p bull -c /livraison/novaforge.cfg -l /livraison/package/repository -o > /livraison/install_3.8.0.log 2>&1 &
+/livraison/package/install.sh -v -t aio -i aio -p bull -c /livraison/novaforge.cfg -l /livraison/package/repository -o > /livraison/install_3.8.1.log 2>&1 &
 ```
 You can monitor the component installation by running the following command :
 ```sh
-tail -f install_3.8.0.log | grep Processing
+tail -f install_3.8.1.log | grep Processing
 ```
-Example of output :
-```sh
-[root@novatest livraison]# tail -f install_3.8.0.log | grep Processing
-06/10/2017 10:43:22 [INFO] - Processing server <server-aio>
-06/10/2017 10:43:26 [INFO] - Processing product <httpd-2.4.6-40>
-06/10/2017 10:43:33 [INFO] - Processing product <certificat-1.0>
-06/10/2017 10:43:40 [INFO] - Processing product <httpd_ssl-2.4.6-40>
-06/10/2017 10:43:47 [INFO] - Processing product <mariadb-10.0.17>
-06/10/2017 10:44:27 [INFO] - Processing product <jre-7u80>
-06/10/2017 10:44:30 [INFO] - Processing product <cas-3.5.0>
-06/10/2017 10:44:39 [INFO] - Processing product <smtp-1.0>
-06/10/2017 10:44:39 [INFO] - Processing product <php-5.4.16-36>
-...
-06/10/2017 10:57:18 [INFO] - Processing product <gitlab-7.3.1>
-06/10/2017 11:00:38 [INFO] - Processing product <novaforge_svn-3.8.0>
-06/10/2017 11:00:40 [INFO] - Processing product <novaforge_aio-3.8.0>
-```
-
-The final installed component is `novaforge_aio-3.8.0`.
-
 The log file should end with lines similar to :
 ```sh
 ...
@@ -356,9 +198,9 @@ The log file related to the Karaf container can be found in the `/datas/novaforg
 You can consider NovaForge as available when the message "NovaForge Initialization: FINISHED SUCCESSFULLY" appears in the log file :
 ```sh
 [root@novatest karaf]# tail -f karaf.log | grep SUCCESS
-2017-10-06 11:13:12,604 | INFO  | lixDispatchQueue | RoleHandler                      | 402 - novaforge-requirements-tool-common-impl - 3.8.0 | Requirements Manager Initialization : FINISHED SUCCESSFULLY.
-2017-10-06 11:13:24,656 | INFO  | lixDispatchQueue | RoleHandler                      | 425 - novaforge-delivery-manager-tool-impl - 3.8.0 | Delivery Manager Initialization : FINISHED SUCCESSFULLY.
-2017-10-06 11:13:45,543 | INFO  | lixDispatchQueue | ForgeInitializator               | 503 - novaforge-initialization - 3.8.0 | NovaForge Initialization: FINISHED SUCCESSFULLY.
+2017-10-06 11:13:12,604 | INFO  | lixDispatchQueue | RoleHandler                      | 402 - novaforge-requirements-tool-common-impl - 3.8.1 | Requirements Manager Initialization : FINISHED SUCCESSFULLY.
+2017-10-06 11:13:24,656 | INFO  | lixDispatchQueue | RoleHandler                      | 425 - novaforge-delivery-manager-tool-impl - 3.8.1 | Delivery Manager Initialization : FINISHED SUCCESSFULLY.
+2017-10-06 11:13:45,543 | INFO  | lixDispatchQueue | ForgeInitializator               | 503 - novaforge-initialization - 3.8.1 | NovaForge Initialization: FINISHED SUCCESSFULLY.
 ```
 
 Regarding the shutdown, each component must be stopped individually.
