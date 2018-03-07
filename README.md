@@ -54,7 +54,10 @@ First, move the NovaForge main folders to their final location :
 ```sh
 cd sources
 mv novaforge_sources novaforge_sources_3.8.0
-cp -r /datas/novaforge-update3.8.1/sources/novaforge_sources 
+mv novaforge_thirdpartygpl novaforge_thirdpartygpl_3.8.0
+mv novaforge_vaadinchartswidgets novaforge_vaadinchartswidgets_3.8.9
+
+cp -r /datas/novaforge-update3.8.1/sources/* . 
 ```
 
 ### Initialize other needed files and folders
@@ -108,6 +111,10 @@ All NovaForge main components have to be built in a specific order :
 cd /datas/sources/novaforge_sources/parent
 mvn install
 cd /datas/sources/novaforge_sources/forge
+mvn install
+cd /datas/sources/novaforge_vaadinchartswidgets
+mvn install
+cd /datas/sources/novaforge_thirdpartygpl
 mvn install
 ```
 The `products` component needs to be built with JDK 1.8.
